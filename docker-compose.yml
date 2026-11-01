@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: schemaspy_postgres
+    environment:
+      POSTGRES_DB: faculdade
+      POSTGRES_USER: schemaspy
+      POSTGRES_PASSWORD: schemaspy123
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql:/scripts:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U schemaspy -d faculdade"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
