@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<database name="faculdade" schema="public" type="PostgreSQL - 17.11 (Debian 17.11-1.pgdg13+2)">
+   <sequences>
+      <sequence increment="1" name="alunos_id_seq" startValue="1"/>
+      <sequence increment="1" name="cursos_id_seq" startValue="1"/>
+      <sequence increment="1" name="matriculas_id_seq" startValue="1"/>
+   </sequences>
+   <tables>
+      <table name="alunos" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('alunos_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="serial" typeCode="4">
+            <child column="alunos_id" foreignKey="fk_aluno" implied="false" onDeleteCascade="false" schema="public" table="matriculas"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="nome" nullable="false" remarks="" size="100" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="email" nullable="false" remarks="" size="100" type="varchar" typeCode="12"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="alunos_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="alunos_email_key" unique="true">
+            <column ascending="true" name="email"/>
+         </index>
+      </table>
+      <table name="cursos" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('cursos_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="serial" typeCode="4">
+            <child column="cursos_id" foreignKey="fk_curso" implied="false" onDeleteCascade="false" schema="public" table="matriculas"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="nome" nullable="false" remarks="" size="100" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="duracao_curso" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="cursos_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="matriculas" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('matriculas_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="alunos_id" nullable="false" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="fk_aluno" implied="false" onDeleteCascade="false" schema="public" table="alunos"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="cursos_id" nullable="false" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="fk_curso" implied="false" onDeleteCascade="false" schema="public" table="cursos"/>
+         </column>
+         <column autoUpdated="false" defaultValue="CURRENT_DATE" digits="0" id="3" name="data_matricula" nullable="false" remarks="" size="13" type="date" typeCode="91"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="matriculas_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="uq_aluno_curso" unique="true">
+            <column ascending="true" name="alunos_id"/>
+            <column ascending="true" name="cursos_id"/>
+         </index>
+      </table>
+   </tables>
+</database>
